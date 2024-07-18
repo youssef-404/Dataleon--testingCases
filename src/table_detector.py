@@ -7,7 +7,7 @@ class TableDetector:
         self.model = DetrForObjectDetection.from_pretrained(model_name)
         self.processor = DetrImageProcessor.from_pretrained(model_name)
 
-    def predict(self, image_path):
+    def detect(self, image_path):
         try:
             image = Image.open(image_path).convert("RGB")
             inputs = self.processor(images=image, return_tensors="pt")

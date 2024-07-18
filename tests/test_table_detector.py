@@ -10,7 +10,7 @@ class TestTableDetection:
 
 
     def test_successful_invoice_extraction(self,table_detector):
-        result = table_detector.predict("tests/images/invoice.png")
+        result = table_detector.detect("tests/images/invoice.png")
         assert len(result) > 0
         assert any(detection["label"] == "table" for detection in result)
 
@@ -18,7 +18,7 @@ class TestTableDetection:
         img.show()
 
     def test_successful_bank_document_extraction(self,table_detector):
-        result = table_detector.predict("tests/images/bank_document.jpg")
+        result = table_detector.detect("tests/images/bank_document.jpg")
         assert len(result) > 0
         assert any(detection["label"] == "table" for detection in result)
 
@@ -26,11 +26,11 @@ class TestTableDetection:
         img.show()
 
     def test_empty_document(self,table_detector):
-        result = table_detector.predict("tests/images/empty_document.jpg")
+        result = table_detector.detect("tests/images/empty_document.jpg")
         assert len(result) == 0
 
     def test_multiple_tables_detection(self,table_detector):
-        result = table_detector.predict("tests/images/multiple_tables.png")
+        result = table_detector.detect("tests/images/multiple_tables.png")
         assert len([detection for detection in result if detection["label"] == "table"]) > 1
 
         img = table_detector.draw_boxes(result,"tests/images/multiple_tables.png")
@@ -38,11 +38,11 @@ class TestTableDetection:
     
     def test_error_handling_nonexistent_file(self,table_detector):
         with pytest.raises(ValueError):
-            table_detector.predict("tests/images/nonexistent_file.jpg")
+            table_detector.detect("tests/images/nonexistent_file.jpg")
 
     def test_error_handling_invalid_image(self,table_detector):
         with pytest.raises(ValueError):
-            table_detector.predict("tests/images/invalid_image.txt")
+            table_detector.detect("tests/images/invalid_image.txt")
 
 
 
